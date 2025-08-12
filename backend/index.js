@@ -5,7 +5,8 @@ dotenv.config();
 import bodyParser from 'body-parser';
 import connectDB from './db/dbConnection.js';
 import Todo from './models/todoModel.js';
-
+import { addTodo, deleteTodo, getTodos, updateTodo } from './controller/todoController.js';
+import todoRoutes from './routes/todoRoutes.js';
 
 
 const app = express();
@@ -20,40 +21,10 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/add-todo', async (req, res) => {
-  const { text } = req.body;    
-    if (!text) {
-        return res.status(400).json({ message: 'Text is required' });
-    }
-    try {
-        const newTodo = new Todo({ text });
-        await newTodo.save();
-        res.status(201).json(newTodo);
-    }
-    catch (error) {
-        console.error('Error creating todo:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-app.get('/todos', async (req, res) => {
-    try {
-        const todos = await Todo.find();
-        res.status(200).json(todos);
-    }   
-    catch (error) {
-        console.error('Error fetching todos:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-
-
-
-
+app.use('/api', todoRoutes);
 
 
 app.listen(PORT, async () => {
-    await connectDB();
+  await connectDB();
   console.log(`Server is running on http://localhost:${PORT}`);
 });
