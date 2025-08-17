@@ -28,3 +28,8 @@ app.listen(PORT, async () => {
   await connectDB();
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
+// Export the app for testing purposes
+export default app;
