@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.use('/api', todoRoutes);
+app.use('/', todoRoutes);
 
 
 app.listen(PORT, async () => {
